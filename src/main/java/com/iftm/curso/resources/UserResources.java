@@ -3,6 +3,7 @@ package com.iftm.curso.resources;
 import java.net.URI;
 import java.util.List;
 
+import com.iftm.curso.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,14 @@ public class UserResources {
 	private UserService service;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll(){
-		List<User> list = service.findAll();
-		return ResponseEntity.ok().body(list );
+	public ResponseEntity<List<UserDTO>> findAll(){
+		List<UserDTO> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id){
-		User obj = service.findById(id);
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id){
+		UserDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

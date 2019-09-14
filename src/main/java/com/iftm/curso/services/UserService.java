@@ -2,7 +2,9 @@ package com.iftm.curso.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.iftm.curso.dto.UserDTO;
 import com.iftm.curso.services.exceptions.DatabaseException;
 import com.iftm.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +23,18 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public List<User> findAll(){
+	public List<UserDTO> findAll(){
 		
-		return repository.findAll();
+		List<User> list = repository.findAll();
+
+		return list.stream().map(e -> new UserDTO(e)).collect(Collectors.toList());
 	}
 	
-	public User findById(Long id) {
+	public UserDTO findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+		User entity = obj.orElseThrow(() -> new ResourceNotFoundException(id));
+
+		return new UserDTO(entity);
 	}
 
 	public User insert(User obj){
