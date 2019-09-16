@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import com.iftm.curso.dto.UserDTO;
+import com.iftm.curso.dto.UserInsertDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +33,12 @@ public class UserResources {
 	}
 
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User obj){
-		obj = service.insert(obj);
+	public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto){
+		UserDTO newDTO = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getId()).toUri();
+				.buildAndExpand(newDTO.getId()).toUri();
 
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(newDTO);
 	}
 
 	@DeleteMapping(value = "/{id}")
