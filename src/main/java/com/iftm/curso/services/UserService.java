@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.iftm.curso.entities.User;
 import com.iftm.curso.repositories.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -51,19 +52,21 @@ public class UserService {
 		}
 	}
 
-	public User update(Long id, User obj){
+	@Transactional
+	public UserDTO update(Long id, UserDTO dto){
 		try{
 			User entity = repository.getOne(id);
-			updateData(entity, obj);
-			return repository.save(entity);
+			updateData(entity, dto);
+			entity = repository.save(entity);
+			return new UserDTO(entity);
 		}catch(EntityNotFoundException e){
 			throw new ResourceNotFoundException(id);
 		}
 	}
 
-	private void updateData(User entity, User obj) {
-		entity.setName(obj.getName());
-		entity.setEmail(obj.getEmail());
-		entity.setPhone(obj.getPhone());
+	private void updateData(User entity, UserDTO dto) {
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setPhone(dto.getPhone());
 	}
 }
