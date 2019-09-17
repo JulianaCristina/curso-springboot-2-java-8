@@ -3,6 +3,8 @@ package com.iftm.curso.resources;
 import java.net.URI;
 import java.util.List;
 
+import com.iftm.curso.dto.CategoryDTO;
+import com.iftm.curso.dto.CategoryInsertDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +21,23 @@ public class CategoryResources {
 	private CategoryService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Category>> findAll(){
-		List<Category> list = service.findAll();
+	public ResponseEntity<List<CategoryDTO>> findAll(){
+		List<CategoryDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id){
-		Category obj = service.findById(id);
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+		CategoryDTO obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@PostMapping
-	public ResponseEntity<Category> insert(@RequestBody Category obj){
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryInsertDTO dto){
+		CategoryDTO newDTO = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
 
-		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.created(uri).body(newDTO);
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -45,9 +47,9 @@ public class CategoryResources {
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Category> update(@PathVariable Long id,@RequestBody Category obj ){
-		obj = service.update(id, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<CategoryDTO> update(@PathVariable Long id,@RequestBody CategoryDTO dto){
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
 	}
 
 

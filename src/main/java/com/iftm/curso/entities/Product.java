@@ -73,6 +73,14 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
 	public Set<Category> getCategories() {
 		return categories;
 	}
