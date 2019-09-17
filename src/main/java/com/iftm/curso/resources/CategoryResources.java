@@ -1,5 +1,6 @@
 package com.iftm.curso.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class CategoryResources {
 	
 	@Autowired
-
 	private CategoryService service;
 	
 	@GetMapping
 	public ResponseEntity<List<Category>> findAll(){
 		List<Category> list = service.findAll();
-		return ResponseEntity.ok().body(list );
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -33,10 +33,9 @@ public class CategoryResources {
 	@PostMapping
 	public ResponseEntity<Category> insert(@RequestBody Category obj){
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("{id}")
-				.buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.created(uri).body(obj);
 	}
 
 	@DeleteMapping(value = "/{id}")

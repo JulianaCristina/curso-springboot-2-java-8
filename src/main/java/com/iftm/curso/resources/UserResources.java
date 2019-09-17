@@ -35,10 +35,9 @@ public class UserResources {
 	@PostMapping
 	public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto){
 		UserDTO newDTO = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(newDTO.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
 
-		return ResponseEntity.ok().body(newDTO);
+		return ResponseEntity.created(uri).body(newDTO);
 	}
 
 	@DeleteMapping(value = "/{id}")
