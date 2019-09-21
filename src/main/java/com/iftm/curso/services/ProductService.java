@@ -9,8 +9,11 @@ import com.iftm.curso.dto.ProductCategoriesDTO;
 import com.iftm.curso.dto.ProductDTO;
 import com.iftm.curso.entities.Category;
 import com.iftm.curso.repositories.CategoryRepository;
+import com.iftm.curso.services.exceptions.DatabaseException;
 import com.iftm.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.iftm.curso.entities.Product;
@@ -58,6 +61,16 @@ public class ProductService {
 			return new ProductDTO(entity); //converto
 		}catch(EntityNotFoundException e){
 			throw new ResourceNotFoundException(id);
+		}
+	}
+
+	public void delete(Long id){
+		try{
+			repository.deleteById(id);
+		}catch (EmptyResultDataAccessException e){
+			throw new  ResourceNotFoundException(id);
+		}catch (DataIntegrityViolationException e){
+			throw new DatabaseException(e.getMessage());
 		}
 	}
 
