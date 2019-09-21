@@ -1,5 +1,6 @@
 package com.iftm.curso.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.iftm.curso.entities.Order;
 import com.iftm.curso.entities.User;
 import com.iftm.curso.entities.enums.OrderStatus;
@@ -11,6 +12,8 @@ public class OrderDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z", timezone = "GMT")
     private Instant moment;
     private OrderStatus orderStatus;
     private Long clientId;

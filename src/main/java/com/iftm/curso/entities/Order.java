@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.iftm.curso.entities.enums.OrderStatus;
 
 @Entity
@@ -20,7 +19,6 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z", timezone = "GMT")
 	private Instant moment;
 
 	private Integer orderStatus;

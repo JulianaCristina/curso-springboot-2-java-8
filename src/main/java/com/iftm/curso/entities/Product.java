@@ -1,6 +1,5 @@
 package com.iftm.curso.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -85,7 +84,7 @@ public class Product implements Serializable {
 		return categories;
 	}
 
-	@JsonIgnore
+
 	public Set<Order> getOrders(){
 		Set<Order> set = new HashSet<>();
 		for (OrderItem x : items){
