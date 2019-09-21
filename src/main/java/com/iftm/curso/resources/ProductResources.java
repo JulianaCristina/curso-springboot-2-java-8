@@ -1,17 +1,17 @@
 package com.iftm.curso.resources;
 
+import java.net.URI;
 import java.util.List;
 
+import com.iftm.curso.dto.ProductCategoriesDTO;
 import com.iftm.curso.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.iftm.curso.entities.Product;
 import com.iftm.curso.services.ProductService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(value =  "/products")
@@ -32,5 +32,10 @@ public class ProductResources {
 		return ResponseEntity.ok().body(dto);
 	}
 
-
+	@PostMapping
+	public ResponseEntity<ProductDTO> insert(@RequestBody ProductCategoriesDTO dto){
+		ProductDTO newDTO = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
+		return ResponseEntity.created(uri).body(newDTO);
+	}
 } 
