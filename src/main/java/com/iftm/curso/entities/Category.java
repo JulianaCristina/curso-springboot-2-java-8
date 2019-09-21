@@ -1,16 +1,11 @@
 package com.iftm.curso.entities;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 
 @Entity
@@ -27,6 +22,9 @@ public class Category implements Serializable{
 
 	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
+
+	private Instant createdAt;
+	private Instant updatedAt;
 	
 	public Category() {
 		
@@ -52,6 +50,26 @@ public class Category implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+
+	//antes de salvar cria e joga o valor nas variaveis
+	@PreUpdate
+	public void preUpdate() {
+		updatedAt = Instant.now();
+	}
+	@PrePersist
+	public void prePersist() {
+		Instant now = Instant.now();
+		updatedAt = now;
+		createdAt = now;
 	}
 
 	@Override
