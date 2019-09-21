@@ -13,6 +13,8 @@ import com.iftm.curso.entities.Product;
 import com.iftm.curso.services.ProductService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value =  "/products")
 public class ProductResources {
@@ -33,7 +35,7 @@ public class ProductResources {
 	}
 
 	@PostMapping
-	public ResponseEntity<ProductDTO> insert(@RequestBody ProductCategoriesDTO dto){
+	public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductCategoriesDTO dto){
 		ProductDTO newDTO = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(newDTO);
