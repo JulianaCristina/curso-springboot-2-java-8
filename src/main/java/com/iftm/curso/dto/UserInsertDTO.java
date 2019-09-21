@@ -1,12 +1,14 @@
 package com.iftm.curso.dto;
 
 import com.iftm.curso.entities.User;
+import com.iftm.curso.services.validation.UserInsertValid;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@UserInsertValid
 public class UserInsertDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
