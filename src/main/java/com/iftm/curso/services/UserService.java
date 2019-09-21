@@ -57,10 +57,10 @@ public class UserService {
 	@Transactional
 	public UserDTO update(Long id, UserDTO dto){
 		try{
-			User entity = repository.getOne(id);
-			updateData(entity, dto);
-			entity = repository.save(entity);
-			return new UserDTO(entity);
+			User entity = repository.getOne(id); //Instancio um usuario baseado no id usando getOne
+			updateData(entity, dto); //atualizo os dados do usuario com base nos dto enviados na requisição
+			entity = repository.save(entity); //salvo no banco
+			return new UserDTO(entity); //converto
 		}catch(EntityNotFoundException e){
 			throw new ResourceNotFoundException(id);
 		}
