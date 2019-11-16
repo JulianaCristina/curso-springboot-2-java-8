@@ -1,6 +1,7 @@
 package com.iftm.curso.resources.exceptions;
 
 import com.iftm.curso.services.exceptions.DatabaseException;
+import com.iftm.curso.services.exceptions.JWTAuthenticationException;
 import com.iftm.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,12 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(JWTAuthenticationException.class)
+    public ResponseEntity<StandardError> jwtAuthentication(JWTAuthenticationException e , HttpServletRequest request){
+        String error = "Authentication error";
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 
+        return ResponseEntity.status(status).body(err);
+    }
 }
