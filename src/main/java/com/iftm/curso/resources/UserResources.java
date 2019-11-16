@@ -7,6 +7,7 @@ import com.iftm.curso.dto.UserDTO;
 import com.iftm.curso.dto.UserInsertDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.iftm.curso.entities.User;
@@ -21,7 +22,8 @@ public class UserResources {
 	
 	@Autowired
 	private UserService service;
-	
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> findAll(){
 		List<UserDTO> list = service.findAll();
@@ -41,7 +43,7 @@ public class UserResources {
 
 		return ResponseEntity.created(uri).body(newDTO);
 	}
-
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		service.delete(id);
