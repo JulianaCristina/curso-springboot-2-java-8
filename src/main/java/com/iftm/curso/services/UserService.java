@@ -80,15 +80,13 @@ public class UserService implements UserDetailsService {
 		entity.setPhone(dto.getPhone());
 	}
 
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 		User user = repository.findByEmail(username);
-		if (user == null){
+		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}
-
 		return user;
-
 	}
 }

@@ -3,7 +3,7 @@ package com.iftm.curso.config;
 import java.time.Instant;
 import java.util.Arrays;
 
-import com.iftm.curso.dto.Role;
+import com.iftm.curso.entities.Role;
 import com.iftm.curso.entities.*;
 import com.iftm.curso.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;

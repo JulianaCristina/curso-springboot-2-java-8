@@ -1,10 +1,8 @@
 package com.iftm.curso.entities;
 
-import com.iftm.curso.dto.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.*;
 
 import javax.persistence.*;
@@ -34,12 +32,12 @@ public class User implements UserDetails {
 		return orders;
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
-		
+
 	}
  
 	public User(Long id, String name, String email, String phone, String password) {

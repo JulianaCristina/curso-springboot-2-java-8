@@ -1,6 +1,6 @@
 package com.iftm.curso.services;
 
-import com.iftm.curso.JWTUtil;
+import com.iftm.curso.security.JWTUtil;
 import com.iftm.curso.dto.CredentialsDTO;
 import com.iftm.curso.dto.TokenDTO;
 import com.iftm.curso.services.exceptions.JWTAuthenticationException;

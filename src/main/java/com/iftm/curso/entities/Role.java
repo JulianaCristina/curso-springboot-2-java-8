@@ -1,4 +1,4 @@
-package com.iftm.curso.dto;
+package com.iftm.curso.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 
