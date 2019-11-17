@@ -10,6 +10,7 @@ import com.iftm.curso.dto.OrderItemDTO;
 import com.iftm.curso.dto.UserDTO;
 import com.iftm.curso.entities.OrderItem;
 import com.iftm.curso.entities.User;
+import com.iftm.curso.repositories.UserRepository;
 import com.iftm.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class OrderService {
 
 	@Autowired
 	private AuthService authService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	public List<OrderDTO> findAll(){
 
@@ -54,5 +58,11 @@ public class OrderService {
 		Set<OrderItem> set = order.getItems();
 		return set.stream().map(e -> new OrderItemDTO(e)).collect(Collectors.toList());
 
+	}
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findByClientId(Long clientId) {
+		User client = userRepository.getOne(clientId);
+		List<Order> list = repository.findByClient(client);
+		return list.stream().map(e -> new OrderDTO(e)).collect(Collectors.toList());
 	}
 }
