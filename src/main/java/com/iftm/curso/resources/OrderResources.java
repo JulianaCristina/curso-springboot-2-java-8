@@ -3,6 +3,8 @@ package com.iftm.curso.resources;
 import java.util.List;
 
 import com.iftm.curso.dto.OrderDTO;
+import com.iftm.curso.dto.OrderItemDTO;
+import com.iftm.curso.entities.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +34,12 @@ public class OrderResources {
 	public ResponseEntity<OrderDTO> findById(@PathVariable Long id){
 		OrderDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
+	}
+
+	@GetMapping(value = "/{id}/items")
+	public ResponseEntity<List<OrderItemDTO>> findItems(@PathVariable Long id){
+		List<OrderItemDTO> list = service.findItems(id);
+		return ResponseEntity.ok().body(list);
 	}
 
 
