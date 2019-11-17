@@ -1,5 +1,6 @@
 package com.iftm.curso.services;
 
+import com.iftm.curso.entities.Order;
 import com.iftm.curso.entities.User;
 import com.iftm.curso.repositories.UserRepository;
 import com.iftm.curso.security.JWTUtil;
@@ -55,4 +56,13 @@ public class AuthService {
             throw  new JWTAuthorizationException("Access denied");
         }
     }
+    public void validateOwnOrderOrAdmin(Order order){
+        User user = authenticated();
+        if (user == null || (!user.getId().equals(order.getClient().getId())) && !user.hasRoles("ROLE_ADMIN")){
+            throw  new JWTAuthorizationException("Access denied");
+        }
+    }
+
+
+
 }
