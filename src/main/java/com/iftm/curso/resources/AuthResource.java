@@ -1,6 +1,7 @@
 package com.iftm.curso.resources;
 
 import com.iftm.curso.dto.CredentialsDTO;
+import com.iftm.curso.dto.EmailDTO;
 import com.iftm.curso.dto.TokenDTO;
 import com.iftm.curso.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,21 @@ public class AuthResource  {
     @Autowired
     private AuthService service;
 
-    @PostMapping("/login")
+    @PostMapping(value =  "/login")
     public ResponseEntity<TokenDTO> login(@RequestBody CredentialsDTO dto){
         TokenDTO tokenDTO = service.authenticate(dto);
         return ResponseEntity.ok().body(tokenDTO);
     }
-    @PostMapping("/refresh")
+    @PostMapping(value = "/refresh")
     public ResponseEntity<TokenDTO> refresh(){
         TokenDTO tokenDTO = service.refreshToken();
         return ResponseEntity.ok().body(tokenDTO);
+    }
+
+    @PostMapping(value = "/forgot")
+    public ResponseEntity<Void> forgot(@RequestBody EmailDTO dto){
+        service.sendNewPassword(dto.getEmail());
+        return ResponseEntity.noContent().build();
     }
 
 }
