@@ -36,6 +36,18 @@ public class ProductResources {
 		Page<ProductDTO> list = service.findAllPaged(pageRequest);
 		return ResponseEntity.ok().body(list );
 	}
+
+	@GetMapping(value = "/category/{categoryId}")
+	public ResponseEntity<Page<ProductDTO>> findByCategoryPaged(
+			@PathVariable Long categoryId,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerpPage", defaultValue = "12") Integer linesPerPpage,
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPpage, Sort.Direction.valueOf(direction), orderBy );
+		Page<ProductDTO> list = service.findByCategoryPaged(categoryId,pageRequest);
+		return ResponseEntity.ok().body(list );
+	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
