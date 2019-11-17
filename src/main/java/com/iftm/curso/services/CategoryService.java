@@ -2,11 +2,14 @@ package com.iftm.curso.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.iftm.curso.dto.CategoryDTO;
 import com.iftm.curso.dto.CategoryInsertDTO;
 import com.iftm.curso.dto.UserDTO;
+import com.iftm.curso.entities.Product;
+import com.iftm.curso.repositories.ProductRepository;
 import com.iftm.curso.services.exceptions.DatabaseException;
 import com.iftm.curso.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class CategoryService {
 	
 	@Autowired
 	private CategoryRepository repository;
+
+	@Autowired
+	private ProductRepository productRepository;
 	
 	public List<CategoryDTO> findAll(){
 
@@ -71,5 +77,12 @@ public class CategoryService {
 
 	private void updateData(Category entity, CategoryDTO dto){
 		entity.setName(dto.getName());
+	}
+
+	@Transactional(readOnly = true)
+    public List<CategoryDTO> findByProduct(Long productId) {
+		Product product = productRepository.getOne(productId);
+		Set<Category> set = product.getCategories();
+		return set.stream().map(e -> new CategoryDTO(e)).collect(Collectors.toList());
 	}
 }
