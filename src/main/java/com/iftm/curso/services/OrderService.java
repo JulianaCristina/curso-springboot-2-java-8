@@ -24,6 +24,8 @@ import com.iftm.curso.entities.Order;
 import com.iftm.curso.repositories.OrderRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class OrderService {
 	
@@ -91,5 +93,22 @@ public class OrderService {
 		orderItemRepository.saveAll(order.getItems());
 
 		return new OrderDTO(order);
+	}
+
+	@Transactional
+	public OrderDTO update(Long id, OrderDTO dto){
+		try{
+			Order entity = repository.getOne(id);
+			updateData(entity, dto);
+			entity = repository.save(entity);
+			return new OrderDTO(entity);
+
+		}catch (EntityNotFoundException e){
+			throw new ResourceNotFoundException(id);
+		}
+	}
+
+	private void updateData(Order entity, OrderDTO dto) {
+		entity.setOrderStatus(dto.getOrderStatus());
 	}
 }

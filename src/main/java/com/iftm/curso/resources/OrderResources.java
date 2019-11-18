@@ -61,4 +61,11 @@ public class OrderResources {
 		return ResponseEntity.created(uri).body(orderDTO);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<OrderDTO> update(@PathVariable Long id,@RequestBody OrderDTO dto){
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
+	}
+
 } 
