@@ -36,4 +36,20 @@ public class PaymentResources {
 		return ResponseEntity.ok().body(obj);
 	}
 
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PostMapping
+	public ResponseEntity<PaymentDTO> insert(@RequestBody PaymentDTO dto){
+		PaymentDTO newDTO = service.insert(dto);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newDTO.getId()).toUri();
+
+		return ResponseEntity.created(uri).body(newDTO);
+	}
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<PaymentDTO> update(@PathVariable Long id,@RequestBody PaymentDTO dto){
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
+	}
+
+
 } 
