@@ -1,9 +1,6 @@
 package com.iftm.curso.resources.exceptions;
 
-import com.iftm.curso.services.exceptions.DatabaseException;
-import com.iftm.curso.services.exceptions.JWTAuthenticationException;
-import com.iftm.curso.services.exceptions.JWTAuthorizationException;
-import com.iftm.curso.services.exceptions.ResourceNotFoundException;
+import com.iftm.curso.services.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -30,6 +27,15 @@ public class ResourceExceptionHandler {
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<StandardError> database(DatabaseException e , HttpServletRequest request){
         String error = "DataBase error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ParamFormatException.class)
+    public ResponseEntity<StandardError> paramFormat(DatabaseException e , HttpServletRequest request){
+        String error = "Format error";
         HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 
